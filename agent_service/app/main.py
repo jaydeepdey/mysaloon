@@ -102,14 +102,14 @@ def index_route():
     </html>
     """
 
-@app.get("/customer", response_class=HTMLResponse)
+@app.api_route("/customer", methods=["GET", "HEAD"], response_class=HTMLResponse)
 def get_customer_app():
     file_path = os.path.join(static_dir, "customer.html")
     if os.path.exists(file_path):
         return FileResponse(file_path)
     return HTMLResponse("<h1>Customer App file not found</h1>")
 
-@app.get("/owner", response_class=HTMLResponse)
+@app.api_route("/owner", methods=["GET", "HEAD"], response_class=HTMLResponse)
 def get_owner_app():
     file_path = os.path.join(static_dir, "owner.html")
     if os.path.exists(file_path):
