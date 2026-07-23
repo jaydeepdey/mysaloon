@@ -116,6 +116,20 @@ def get_owner_app():
         return FileResponse(file_path)
     return HTMLResponse("<h1>Owner App file not found</h1>")
 
+@app.api_route("/manifest.json", methods=["GET", "HEAD"])
+def get_manifest():
+    file_path = os.path.join(static_dir, "manifest.json")
+    if os.path.exists(file_path):
+        return FileResponse(file_path, media_type="application/json")
+    return HTMLResponse("{}", status_code=404)
+
+@app.api_route("/sw.js", methods=["GET", "HEAD"])
+def get_sw():
+    file_path = os.path.join(static_dir, "sw.js")
+    if os.path.exists(file_path):
+        return FileResponse(file_path, media_type="application/javascript")
+    return HTMLResponse("", status_code=404)
+
 @app.get("/health")
 def health_check():
     return {"status": "healthy", "service": "Luxe Salon AI Booking Agent", "version": "1.0.0"}

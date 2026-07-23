@@ -1,11 +1,15 @@
 {
+  "id": "com.luxesalon.app",
   "name": "Luxe Aura Salon & Spa",
   "short_name": "LuxeSalon",
   "description": "Luxury Hair, Skin & Wellness Appointments AI Booking System",
   "start_url": "/customer",
+  "scope": "/",
   "display": "standalone",
+  "orientation": "portrait",
   "background_color": "#FDFBF7",
   "theme_color": "#D97757",
+  "categories": ["lifestyle", "beauty", "shopping"],
   "icons": [
     {
       "src": "/static/modern_salon_header.png",
