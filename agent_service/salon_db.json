@@ -1,0 +1,573 @@
+{
+  "services": [
+    {
+      "id": "11111111-1111-1111-1111-111111111111",
+      "name": "Signature Haircut & Styling",
+      "description": "Precision haircut, wash, scalp massage, and professional blow-dry styling.",
+      "duration_minutes": 60,
+      "price": 65.0,
+      "category": "Hair",
+      "is_popular": true
+    },
+    {
+      "id": "22222222-2222-2222-2222-222222222222",
+      "name": "Full Hair Coloring & Gloss",
+      "description": "Custom color treatment with premium organic pigments and shine-enhancing gloss.",
+      "duration_minutes": 60,
+      "price": 120.0,
+      "category": "Hair",
+      "is_popular": true
+    },
+    {
+      "id": "33333333-3333-3333-3333-333333333333",
+      "name": "Hydrating Facial Spa",
+      "description": "Deep cleansing, gentle exfoliation, hydrating botanical mask, and facial massage.",
+      "duration_minutes": 60,
+      "price": 85.0,
+      "category": "Facial",
+      "is_popular": true
+    },
+    {
+      "id": "44444444-4444-4444-4444-444444444444",
+      "name": "Gel Manicure & Hand Care",
+      "description": "Long-lasting gel polish, nail shaping, cuticle treatment, and hand massage.",
+      "duration_minutes": 60,
+      "price": 45.0,
+      "category": "Nails",
+      "is_popular": false
+    }
+  ],
+  "slots": [
+    {
+      "id": "slot-2026-07-23-09",
+      "date": "2026-07-23",
+      "start_time": "09:00:00",
+      "end_time": "10:00:00",
+      "staff_id": "a1111111-1111-1111-1111-111111111111",
+      "staff_name": "Elena Rostova",
+      "is_booked": false
+    },
+    {
+      "id": "slot-2026-07-23-10",
+      "date": "2026-07-23",
+      "start_time": "10:00:00",
+      "end_time": "11:00:00",
+      "staff_id": "a1111111-1111-1111-1111-111111111111",
+      "staff_name": "Elena Rostova",
+      "is_booked": false
+    },
+    {
+      "id": "slot-2026-07-23-11",
+      "date": "2026-07-23",
+      "start_time": "11:00:00",
+      "end_time": "12:00:00",
+      "staff_id": "a1111111-1111-1111-1111-111111111111",
+      "staff_name": "Elena Rostova",
+      "is_booked": false
+    },
+    {
+      "id": "slot-2026-07-23-12",
+      "date": "2026-07-23",
+      "start_time": "12:00:00",
+      "end_time": "13:00:00",
+      "staff_id": "a1111111-1111-1111-1111-111111111111",
+      "staff_name": "Elena Rostova",
+      "is_booked": false
+    },
+    {
+      "id": "slot-2026-07-23-14",
+      "date": "2026-07-23",
+      "start_time": "14:00:00",
+      "end_time": "15:00:00",
+      "staff_id": "a1111111-1111-1111-1111-111111111111",
+      "staff_name": "Elena Rostova",
+      "is_booked": false
+    },
+    {
+      "id": "slot-2026-07-23-15",
+      "date": "2026-07-23",
+      "start_time": "15:00:00",
+      "end_time": "16:00:00",
+      "staff_id": "a1111111-1111-1111-1111-111111111111",
+      "staff_name": "Elena Rostova",
+      "is_booked": false
+    },
+    {
+      "id": "slot-2026-07-23-16",
+      "date": "2026-07-23",
+      "start_time": "16:00:00",
+      "end_time": "17:00:00",
+      "staff_id": "a1111111-1111-1111-1111-111111111111",
+      "staff_name": "Elena Rostova",
+      "is_booked": false
+    },
+    {
+      "id": "slot-2026-07-23-17",
+      "date": "2026-07-23",
+      "start_time": "17:00:00",
+      "end_time": "18:00:00",
+      "staff_id": "a1111111-1111-1111-1111-111111111111",
+      "staff_name": "Elena Rostova",
+      "is_booked": false
+    },
+    {
+      "id": "slot-2026-07-24-09",
+      "date": "2026-07-24",
+      "start_time": "09:00:00",
+      "end_time": "10:00:00",
+      "staff_id": "a2222222-2222-2222-2222-222222222222",
+      "staff_name": "Marcus Vance",
+      "is_booked": true
+    },
+    {
+      "id": "slot-2026-07-24-10",
+      "date": "2026-07-24",
+      "start_time": "10:00:00",
+      "end_time": "11:00:00",
+      "staff_id": "a2222222-2222-2222-2222-222222222222",
+      "staff_name": "Marcus Vance",
+      "is_booked": false
+    },
+    {
+      "id": "slot-2026-07-24-11",
+      "date": "2026-07-24",
+      "start_time": "11:00:00",
+      "end_time": "12:00:00",
+      "staff_id": "a2222222-2222-2222-2222-222222222222",
+      "staff_name": "Marcus Vance",
+      "is_booked": false
+    },
+    {
+      "id": "slot-2026-07-24-12",
+      "date": "2026-07-24",
+      "start_time": "12:00:00",
+      "end_time": "13:00:00",
+      "staff_id": "a2222222-2222-2222-2222-222222222222",
+      "staff_name": "Marcus Vance",
+      "is_booked": false
+    },
+    {
+      "id": "slot-2026-07-24-14",
+      "date": "2026-07-24",
+      "start_time": "14:00:00",
+      "end_time": "15:00:00",
+      "staff_id": "a2222222-2222-2222-2222-222222222222",
+      "staff_name": "Marcus Vance",
+      "is_booked": false
+    },
+    {
+      "id": "slot-2026-07-24-15",
+      "date": "2026-07-24",
+      "start_time": "15:00:00",
+      "end_time": "16:00:00",
+      "staff_id": "a2222222-2222-2222-2222-222222222222",
+      "staff_name": "Marcus Vance",
+      "is_booked": false
+    },
+    {
+      "id": "slot-2026-07-24-16",
+      "date": "2026-07-24",
+      "start_time": "16:00:00",
+      "end_time": "17:00:00",
+      "staff_id": "a2222222-2222-2222-2222-222222222222",
+      "staff_name": "Marcus Vance",
+      "is_booked": false
+    },
+    {
+      "id": "slot-2026-07-24-17",
+      "date": "2026-07-24",
+      "start_time": "17:00:00",
+      "end_time": "18:00:00",
+      "staff_id": "a2222222-2222-2222-2222-222222222222",
+      "staff_name": "Marcus Vance",
+      "is_booked": false
+    },
+    {
+      "id": "slot-2026-07-25-09",
+      "date": "2026-07-25",
+      "start_time": "09:00:00",
+      "end_time": "10:00:00",
+      "staff_id": "a3333333-3333-3333-3333-333333333333",
+      "staff_name": "Chloe Bennett",
+      "is_booked": false
+    },
+    {
+      "id": "slot-2026-07-25-10",
+      "date": "2026-07-25",
+      "start_time": "10:00:00",
+      "end_time": "11:00:00",
+      "staff_id": "a3333333-3333-3333-3333-333333333333",
+      "staff_name": "Chloe Bennett",
+      "is_booked": false
+    },
+    {
+      "id": "slot-2026-07-25-11",
+      "date": "2026-07-25",
+      "start_time": "11:00:00",
+      "end_time": "12:00:00",
+      "staff_id": "a3333333-3333-3333-3333-333333333333",
+      "staff_name": "Chloe Bennett",
+      "is_booked": false
+    },
+    {
+      "id": "slot-2026-07-25-12",
+      "date": "2026-07-25",
+      "start_time": "12:00:00",
+      "end_time": "13:00:00",
+      "staff_id": "a3333333-3333-3333-3333-333333333333",
+      "staff_name": "Chloe Bennett",
+      "is_booked": false
+    },
+    {
+      "id": "slot-2026-07-25-14",
+      "date": "2026-07-25",
+      "start_time": "14:00:00",
+      "end_time": "15:00:00",
+      "staff_id": "a3333333-3333-3333-3333-333333333333",
+      "staff_name": "Chloe Bennett",
+      "is_booked": false
+    },
+    {
+      "id": "slot-2026-07-25-15",
+      "date": "2026-07-25",
+      "start_time": "15:00:00",
+      "end_time": "16:00:00",
+      "staff_id": "a3333333-3333-3333-3333-333333333333",
+      "staff_name": "Chloe Bennett",
+      "is_booked": false
+    },
+    {
+      "id": "slot-2026-07-25-16",
+      "date": "2026-07-25",
+      "start_time": "16:00:00",
+      "end_time": "17:00:00",
+      "staff_id": "a3333333-3333-3333-3333-333333333333",
+      "staff_name": "Chloe Bennett",
+      "is_booked": false
+    },
+    {
+      "id": "slot-2026-07-25-17",
+      "date": "2026-07-25",
+      "start_time": "17:00:00",
+      "end_time": "18:00:00",
+      "staff_id": "a3333333-3333-3333-3333-333333333333",
+      "staff_name": "Chloe Bennett",
+      "is_booked": false
+    },
+    {
+      "id": "slot-2026-07-26-09",
+      "date": "2026-07-26",
+      "start_time": "09:00:00",
+      "end_time": "10:00:00",
+      "staff_id": "a1111111-1111-1111-1111-111111111111",
+      "staff_name": "Elena Rostova",
+      "is_booked": false
+    },
+    {
+      "id": "slot-2026-07-26-10",
+      "date": "2026-07-26",
+      "start_time": "10:00:00",
+      "end_time": "11:00:00",
+      "staff_id": "a1111111-1111-1111-1111-111111111111",
+      "staff_name": "Elena Rostova",
+      "is_booked": false
+    },
+    {
+      "id": "slot-2026-07-26-11",
+      "date": "2026-07-26",
+      "start_time": "11:00:00",
+      "end_time": "12:00:00",
+      "staff_id": "a1111111-1111-1111-1111-111111111111",
+      "staff_name": "Elena Rostova",
+      "is_booked": false
+    },
+    {
+      "id": "slot-2026-07-26-12",
+      "date": "2026-07-26",
+      "start_time": "12:00:00",
+      "end_time": "13:00:00",
+      "staff_id": "a1111111-1111-1111-1111-111111111111",
+      "staff_name": "Elena Rostova",
+      "is_booked": false
+    },
+    {
+      "id": "slot-2026-07-26-14",
+      "date": "2026-07-26",
+      "start_time": "14:00:00",
+      "end_time": "15:00:00",
+      "staff_id": "a1111111-1111-1111-1111-111111111111",
+      "staff_name": "Elena Rostova",
+      "is_booked": false
+    },
+    {
+      "id": "slot-2026-07-26-15",
+      "date": "2026-07-26",
+      "start_time": "15:00:00",
+      "end_time": "16:00:00",
+      "staff_id": "a1111111-1111-1111-1111-111111111111",
+      "staff_name": "Elena Rostova",
+      "is_booked": false
+    },
+    {
+      "id": "slot-2026-07-26-16",
+      "date": "2026-07-26",
+      "start_time": "16:00:00",
+      "end_time": "17:00:00",
+      "staff_id": "a1111111-1111-1111-1111-111111111111",
+      "staff_name": "Elena Rostova",
+      "is_booked": false
+    },
+    {
+      "id": "slot-2026-07-26-17",
+      "date": "2026-07-26",
+      "start_time": "17:00:00",
+      "end_time": "18:00:00",
+      "staff_id": "a1111111-1111-1111-1111-111111111111",
+      "staff_name": "Elena Rostova",
+      "is_booked": false
+    },
+    {
+      "id": "slot-2026-07-27-09",
+      "date": "2026-07-27",
+      "start_time": "09:00:00",
+      "end_time": "10:00:00",
+      "staff_id": "a2222222-2222-2222-2222-222222222222",
+      "staff_name": "Marcus Vance",
+      "is_booked": false
+    },
+    {
+      "id": "slot-2026-07-27-10",
+      "date": "2026-07-27",
+      "start_time": "10:00:00",
+      "end_time": "11:00:00",
+      "staff_id": "a2222222-2222-2222-2222-222222222222",
+      "staff_name": "Marcus Vance",
+      "is_booked": false
+    },
+    {
+      "id": "slot-2026-07-27-11",
+      "date": "2026-07-27",
+      "start_time": "11:00:00",
+      "end_time": "12:00:00",
+      "staff_id": "a2222222-2222-2222-2222-222222222222",
+      "staff_name": "Marcus Vance",
+      "is_booked": false
+    },
+    {
+      "id": "slot-2026-07-27-12",
+      "date": "2026-07-27",
+      "start_time": "12:00:00",
+      "end_time": "13:00:00",
+      "staff_id": "a2222222-2222-2222-2222-222222222222",
+      "staff_name": "Marcus Vance",
+      "is_booked": false
+    },
+    {
+      "id": "slot-2026-07-27-14",
+      "date": "2026-07-27",
+      "start_time": "14:00:00",
+      "end_time": "15:00:00",
+      "staff_id": "a2222222-2222-2222-2222-222222222222",
+      "staff_name": "Marcus Vance",
+      "is_booked": false
+    },
+    {
+      "id": "slot-2026-07-27-15",
+      "date": "2026-07-27",
+      "start_time": "15:00:00",
+      "end_time": "16:00:00",
+      "staff_id": "a2222222-2222-2222-2222-222222222222",
+      "staff_name": "Marcus Vance",
+      "is_booked": true
+    },
+    {
+      "id": "slot-2026-07-27-16",
+      "date": "2026-07-27",
+      "start_time": "16:00:00",
+      "end_time": "17:00:00",
+      "staff_id": "a2222222-2222-2222-2222-222222222222",
+      "staff_name": "Marcus Vance",
+      "is_booked": false
+    },
+    {
+      "id": "slot-2026-07-27-17",
+      "date": "2026-07-27",
+      "start_time": "17:00:00",
+      "end_time": "18:00:00",
+      "staff_id": "a2222222-2222-2222-2222-222222222222",
+      "staff_name": "Marcus Vance",
+      "is_booked": false
+    },
+    {
+      "id": "slot-2026-07-28-09",
+      "date": "2026-07-28",
+      "start_time": "09:00:00",
+      "end_time": "10:00:00",
+      "staff_id": "a3333333-3333-3333-3333-333333333333",
+      "staff_name": "Chloe Bennett",
+      "is_booked": false
+    },
+    {
+      "id": "slot-2026-07-28-10",
+      "date": "2026-07-28",
+      "start_time": "10:00:00",
+      "end_time": "11:00:00",
+      "staff_id": "a3333333-3333-3333-3333-333333333333",
+      "staff_name": "Chloe Bennett",
+      "is_booked": false
+    },
+    {
+      "id": "slot-2026-07-28-11",
+      "date": "2026-07-28",
+      "start_time": "11:00:00",
+      "end_time": "12:00:00",
+      "staff_id": "a3333333-3333-3333-3333-333333333333",
+      "staff_name": "Chloe Bennett",
+      "is_booked": false
+    },
+    {
+      "id": "slot-2026-07-28-12",
+      "date": "2026-07-28",
+      "start_time": "12:00:00",
+      "end_time": "13:00:00",
+      "staff_id": "a3333333-3333-3333-3333-333333333333",
+      "staff_name": "Chloe Bennett",
+      "is_booked": false
+    },
+    {
+      "id": "slot-2026-07-28-14",
+      "date": "2026-07-28",
+      "start_time": "14:00:00",
+      "end_time": "15:00:00",
+      "staff_id": "a3333333-3333-3333-3333-333333333333",
+      "staff_name": "Chloe Bennett",
+      "is_booked": false
+    },
+    {
+      "id": "slot-2026-07-28-15",
+      "date": "2026-07-28",
+      "start_time": "15:00:00",
+      "end_time": "16:00:00",
+      "staff_id": "a3333333-3333-3333-3333-333333333333",
+      "staff_name": "Chloe Bennett",
+      "is_booked": false
+    },
+    {
+      "id": "slot-2026-07-28-16",
+      "date": "2026-07-28",
+      "start_time": "16:00:00",
+      "end_time": "17:00:00",
+      "staff_id": "a3333333-3333-3333-3333-333333333333",
+      "staff_name": "Chloe Bennett",
+      "is_booked": false
+    },
+    {
+      "id": "slot-2026-07-28-17",
+      "date": "2026-07-28",
+      "start_time": "17:00:00",
+      "end_time": "18:00:00",
+      "staff_id": "a3333333-3333-3333-3333-333333333333",
+      "staff_name": "Chloe Bennett",
+      "is_booked": false
+    },
+    {
+      "id": "slot-2026-07-29-09",
+      "date": "2026-07-29",
+      "start_time": "09:00:00",
+      "end_time": "10:00:00",
+      "staff_id": "a1111111-1111-1111-1111-111111111111",
+      "staff_name": "Elena Rostova",
+      "is_booked": false
+    },
+    {
+      "id": "slot-2026-07-29-10",
+      "date": "2026-07-29",
+      "start_time": "10:00:00",
+      "end_time": "11:00:00",
+      "staff_id": "a1111111-1111-1111-1111-111111111111",
+      "staff_name": "Elena Rostova",
+      "is_booked": false
+    },
+    {
+      "id": "slot-2026-07-29-11",
+      "date": "2026-07-29",
+      "start_time": "11:00:00",
+      "end_time": "12:00:00",
+      "staff_id": "a1111111-1111-1111-1111-111111111111",
+      "staff_name": "Elena Rostova",
+      "is_booked": false
+    },
+    {
+      "id": "slot-2026-07-29-12",
+      "date": "2026-07-29",
+      "start_time": "12:00:00",
+      "end_time": "13:00:00",
+      "staff_id": "a1111111-1111-1111-1111-111111111111",
+      "staff_name": "Elena Rostova",
+      "is_booked": false
+    },
+    {
+      "id": "slot-2026-07-29-14",
+      "date": "2026-07-29",
+      "start_time": "14:00:00",
+      "end_time": "15:00:00",
+      "staff_id": "a1111111-1111-1111-1111-111111111111",
+      "staff_name": "Elena Rostova",
+      "is_booked": false
+    },
+    {
+      "id": "slot-2026-07-29-15",
+      "date": "2026-07-29",
+      "start_time": "15:00:00",
+      "end_time": "16:00:00",
+      "staff_id": "a1111111-1111-1111-1111-111111111111",
+      "staff_name": "Elena Rostova",
+      "is_booked": false
+    },
+    {
+      "id": "slot-2026-07-29-16",
+      "date": "2026-07-29",
+      "start_time": "16:00:00",
+      "end_time": "17:00:00",
+      "staff_id": "a1111111-1111-1111-1111-111111111111",
+      "staff_name": "Elena Rostova",
+      "is_booked": false
+    },
+    {
+      "id": "slot-2026-07-29-17",
+      "date": "2026-07-29",
+      "start_time": "17:00:00",
+      "end_time": "18:00:00",
+      "staff_id": "a1111111-1111-1111-1111-111111111111",
+      "staff_name": "Elena Rostova",
+      "is_booked": false
+    }
+  ],
+  "appointments": {
+    "appt-1784829041": {
+      "id": "appt-1784829041",
+      "customer_id": "9fa59831-3860-43ec-b349-88f5e1acb233",
+      "customer_name": "Customer",
+      "service_name": "Signature Haircut & Styling",
+      "staff_name": "Marcus Vance",
+      "requested_start_time": "2026-07-24T09:00:00",
+      "requested_end_time": "2026-07-24T10:00:00",
+      "status": "approved",
+      "notes": "Approved by Salon Owner",
+      "created_at": "2026-07-23T23:20:41.642919"
+    },
+    "appt-1784829072": {
+      "id": "appt-1784829072",
+      "customer_id": "9fa59831-3860-43ec-b349-88f5e1acb233",
+      "service_id": "11111111-1111-1111-1111-111111111111",
+      "service_name": "Booked via AI Assistant (Book an appointment for 27th Jul for anytime between 3 Pm to 5 PM)",
+      "staff_id": "a2222222-2222-2222-2222-222222222222",
+      "staff_name": "Elena Rostova",
+      "requested_start_time": "2026-07-27T15:00:00",
+      "requested_end_time": "2026-07-27T16:00:00",
+      "status": "approved",
+      "notes": "Approved by Salon Owner",
+      "created_at": "2026-07-23T23:21:12.862099"
+    }
+  }
+}

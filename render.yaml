@@ -1,0 +1,14 @@
+# Render.com Infrastructure-as-Code for FastAPI Python Backend (Free Tier)
+services:
+  - type: web
+    name: luxe-salon-api-service
+    env: python
+    buildCommand: "pip install -r agent_service/requirements.txt"
+    startCommand: "PYTHONPATH=agent_service uvicorn app.main:app --host 0.0.0.0 --port $PORT"
+    envVars:
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: SUPABASE_URL
+        value: https://payazqyiyuapunwhhwop.supabase.co
+      - key: SUPABASE_SERVICE_ROLE_KEY
+        sync: false

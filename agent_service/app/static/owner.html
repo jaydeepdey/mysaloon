@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Luxe Aura Salon - Owner App</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    :root {
+      --primary: #D97757;
+      --primary-hover: #C56343;
+      --primary-light: #F9EAE1;
+      --bg-cream: #FDFBF7;
+      --card-bg: #FFFFFF;
+      --text-dark: #2D2A26;
+      --text-muted: #7A7570;
+      --success: #4CAF50;
+      --warning: #E6A23C;
+      --danger: #F44336;
+      --radius-lg: 20px;
+      --radius-md: 12px;
+      --shadow: 0 10px 30px rgba(0,0,0,0.06);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Outfit', sans-serif; }
+    body { background: var(--bg-cream); color: var(--text-dark); min-height: 100vh; }
+
+    /* SALON HEADER COVER PICTURE */
+    .salon-cover-header {
+      width: 100%;
+      height: 190px;
+      background: url('/static/modern_salon_header.png') center/cover no-repeat;
+      position: relative;
+      border-bottom-left-radius: var(--radius-lg);
+      border-bottom-right-radius: var(--radius-lg);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    }
+
+    .salon-cover-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.7));
+      border-bottom-left-radius: var(--radius-lg);
+      border-bottom-right-radius: var(--radius-lg);
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      padding: 20px 24px;
+      color: white;
+    }
+
+    .salon-header-title { font-size: 1.6rem; font-weight: 700; }
+    .salon-header-sub { font-size: 0.9rem; opacity: 0.9; }
+
+    .user-auth-badge {
+      background: rgba(255,255,255,0.2);
+      backdrop-filter: blur(10px);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      color: white;
+      border: 1px solid rgba(255,255,255,0.3);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+    .user-auth-badge:hover { background: rgba(255,255,255,0.35); }
+
+    /* AUTH LANDING GATE WRAPPER */
+    .auth-landing-wrapper {
+      max-width: 440px;
+      margin: 30px auto;
+      padding: 0 16px;
+    }
+
+    .auth-card {
+      background: white;
+      border-radius: var(--radius-lg);
+      padding: 28px;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(0,0,0,0.05);
+      text-align: center;
+    }
+
+    nav {
+      max-width: 850px;
+      margin: 16px auto 0;
+      display: flex;
+      gap: 10px;
+      padding: 0 16px;
+    }
+
+    .nav-btn {
+      flex: 1;
+      padding: 10px 16px;
+      border-radius: 20px;
+      border: 1px solid transparent;
+      background: white;
+      color: var(--text-dark);
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+      transition: all 0.2s ease;
+      text-align: center;
+    }
+
+    .nav-btn.active, .nav-btn:hover {
+      background: var(--primary);
+      color: white;
+    }
+
+    main {
+      max-width: 850px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 20px 16px;
+    }
+
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .stat-card {
+      background: white;
+      padding: 14px;
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(0,0,0,0.04);
+      text-align: center;
+    }
+
+    .stat-val { font-size: 1.5rem; font-weight: 700; color: var(--primary); }
+    .stat-lbl { font-size: 0.8rem; color: var(--text-muted); font-weight: 500; }
+
+    .filter-bar {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .chip {
+      padding: 6px 14px;
+      border-radius: 16px;
+      background: white;
+      border: 1px solid #E0E0E0;
+      font-size: 0.85rem;
+      cursor: pointer;
+      font-weight: 500;
+    }
+
+    .chip.active {
+      background: var(--text-dark);
+      color: white;
+      border-color: var(--text-dark);
+    }
+
+    .appt-card {
+      background: white;
+      border-radius: var(--radius-md);
+      padding: 16px;
+      margin-bottom: 12px;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(0,0,0,0.04);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .badge {
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: white;
+      display: inline-block;
+    }
+    .badge-pending { background: var(--warning); }
+    .badge-approved { background: var(--success); }
+    .badge-rejected { background: var(--danger); }
+    .badge-cancelled { background: #9E9E9E; }
+
+    .actions { display: flex; gap: 8px; }
+
+    .btn {
+      padding: 8px 14px;
+      border-radius: 16px;
+      border: none;
+      font-weight: 700;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+
+    .btn-success { background: var(--success); color: white; }
+    .btn-danger { background: var(--danger); color: white; }
+    .btn-primary { background: var(--primary); color: white; }
+    .btn:hover { opacity: 0.9; }
+
+    /* MODAL */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+    .modal-backdrop.active { display: flex; }
+
+    .modal-card {
+      background: white;
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      width: 90%;
+      max-width: 460px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+    }
+
+    .form-group { margin-bottom: 12px; }
+    .form-group label { display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 4px; color: var(--text-muted); }
+    .form-group input { width: 100%; padding: 10px 14px; border-radius: var(--radius-md); border: 1px solid #DDD; outline: none; }
+
+    .btn-google {
+      width: 100%;
+      padding: 12px;
+      border-radius: 12px;
+      border: 1px solid #DDD;
+      background: white;
+      color: #333;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .btn-google:hover { background: #F8F8F8; }
+
+    .form-control {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #DDD;
+      border-radius: 10px;
+      margin-bottom: 12px;
+      font-size: 0.95rem;
+      outline: none;
+    }
+    .form-control:focus { border-color: var(--primary); }
+
+    .error-banner {
+      background: #FEE2E2;
+      color: #DC2626;
+      padding: 10px 14px;
+      border-radius: var(--radius-md);
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 12px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- SALON COVER HEADER -->
+  <div class="salon-cover-header">
+    <div class="salon-cover-overlay">
+      <div>
+        <div class="salon-header-title">👑 Luxe Aura Salon - Owner Portal</div>
+        <div class="salon-header-sub">Manage Bookings, Services & Live Slot Availability</div>
+      </div>
+      <div id="user-auth-container">
+        <button class="user-auth-badge" onclick="showAuthLanding()">🔑 Owner Sign In</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- AUTHENTICATION LANDING GATE (VISIBLE WHEN NOT SIGNED IN) -->
+  <div class="auth-landing-wrapper" id="auth-landing-screen">
+    <div class="auth-card">
+      <h2 style="font-weight:700; margin-bottom:6px; color:var(--text-dark);">Owner Portal Authentication</h2>
+      <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:20px;">Please Sign In with your Owner Account to manage salon requests & availability</p>
+
+      <div id="auth-tabs-landing" style="display:flex; gap:10px; margin-bottom:16px;">
+        <button class="nav-btn active" id="tab-landing-signin" onclick="switchAuthMode('signin')">Sign In</button>
+        <button class="nav-btn" id="tab-landing-signup" onclick="switchAuthMode('signup')">Register Owner</button>
+      </div>
+
+      <div class="error-banner" id="auth-landing-error"></div>
+
+      <input type="email" id="landing-email" class="form-control" placeholder="Owner Email address">
+      <input type="password" id="landing-password" class="form-control" placeholder="Password">
+      <input type="text" id="landing-fullname" class="form-control" placeholder="Full Name (Sign Up only)" style="display:none;">
+
+      <button class="btn btn-primary" style="width:100%; border-radius:12px; padding:12px;" onclick="submitLandingAuth()">Authenticate Owner</button>
+
+      <div style="text-align:center; color:var(--text-muted); margin:12px 0; font-size:0.85rem;">OR</div>
+
+      <button class="btn-google" onclick="signInWithGoogle()">
+        <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/></svg>
+        Continue with Google
+      </button>
+
+      <div style="margin-top:16px; border-top:1px solid #EEE; padding-top:12px;">
+        <button onclick="loginAsDemoOwner()" style="background:none; border:none; color:var(--primary); font-weight:700; font-size:0.85rem; cursor:pointer;">
+          ⚡ Continue as Demo Owner
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- NAVIGATION (VISIBLE AFTER OWNER SIGN-IN) -->
+  <nav id="app-nav" style="display: none;">
+    <button class="nav-btn active" onclick="switchTab('requests')">All Client Requests</button>
+    <button class="nav-btn" onclick="switchTab('services')">Configure Services</button>
+    <button class="nav-btn" onclick="switchTab('slots')">7-Day Slot Availability Manager</button>
+  </nav>
+
+  <!-- MAIN CONTAINER (VISIBLE AFTER OWNER SIGN-IN) -->
+  <main id="app-main" style="display: none;">
+    <!-- TAB 1: APPOINTMENT REQUESTS -->
+    <div id="tab-requests">
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="stat-val" id="cnt-all">0</div>
+          <div class="stat-lbl">TOTAL</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-val" id="cnt-pending" style="color:var(--warning);">0</div>
+          <div class="stat-lbl">PENDING</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-val" id="cnt-approved" style="color:var(--success);">0</div>
+          <div class="stat-lbl">APPROVED</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-val" id="cnt-cancelled" style="color:#9E9E9E;">0</div>
+          <div class="stat-lbl">CANCELLED</div>
+        </div>
+      </div>
+
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+        <div class="filter-bar">
+          <button class="chip active" onclick="setFilter('all', this)">All</button>
+          <button class="chip" onclick="setFilter('pending', this)">Pending</button>
+          <button class="chip" onclick="setFilter('approved', this)">Approved</button>
+          <button class="chip" onclick="setFilter('rejected', this)">Rejected</button>
+          <button class="chip" onclick="setFilter('cancelled', this)">Cancelled</button>
+        </div>
+        <button class="btn" style="background:#E0E0E0;" onclick="loadAppointments()">Refresh List</button>
+      </div>
+
+      <div id="requests-list">Loading requests...</div>
+    </div>
+
+    <!-- TAB 2: SERVICES CONFIGURATION -->
+    <div id="tab-services" style="display: none;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+        <div style="font-weight: 700; font-size: 1.2rem;">Salon Services & Pricing Catalog</div>
+        <button class="btn btn-primary" onclick="openServiceModal()">+ Add New Service</button>
+      </div>
+
+      <div id="services-owner-list">Loading service catalog...</div>
+    </div>
+
+    <!-- TAB 3: SLOTS MANAGER -->
+    <div id="tab-slots" style="display: none;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+        <div style="font-weight: 700; font-size: 1.2rem;">7-Day Slot Availability Manager</div>
+        <button class="btn" style="background:#E0E0E0;" onclick="loadSlotsManager()">Refresh Availability</button>
+      </div>
+
+      <div id="slots-manager-container">Loading slots availability...</div>
+    </div>
+  </main>
+
+  <!-- SERVICE MODAL -->
+  <div class="modal-backdrop" id="service-modal">
+    <div class="modal-card">
+      <h3 id="service-modal-title" style="font-weight:700; margin-bottom:16px;">Configure Service</h3>
+      <input type="hidden" id="edit-service-id">
+      
+      <div class="form-group">
+        <label>Service Name</label>
+        <input type="text" id="srv-name" placeholder="e.g. Keratin Glow Treatment">
+      </div>
+      <div class="form-group">
+        <label>Description</label>
+        <input type="text" id="srv-desc" placeholder="Brief service details...">
+      </div>
+      <div class="form-group">
+        <label>Duration (Minutes)</label>
+        <input type="number" id="srv-duration" value="60">
+      </div>
+      <div class="form-group">
+        <label>Price ($)</label>
+        <input type="number" id="srv-price" value="75.00" step="0.01">
+      </div>
+      <div style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px;">
+        <button class="btn" style="background:#E0E0E0;" onclick="closeServiceModal()">Cancel</button>
+        <button class="btn btn-primary" onclick="saveServiceConfig()">Save & Apply to Customer App</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const API_BASE = window.location.origin;
+    const SUPABASE_URL = "https://payazqyiyuapunwhhwop.supabase.co";
+    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBheWF6cXlpeXVhcHVud2hod29wIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQ3Mzc5NjUsImV4cCI6MjEwMDMxMzk2NX0.nu3DZ3CD91FNAN7s18PiO1IV57d8jqTHIcn3vKB5ZdY";
+    
+    let supabaseClient = null;
+    if (window.supabase) {
+      supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    }
+
+    let currentUser = null;
+    let authMode = 'signin';
+    let allAppointments = [];
+    let currentFilter = 'all';
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+    }
+
+    async function initAuth() {
+      const savedUser = localStorage.getItem('luxe_owner_user');
+      if (savedUser) {
+        try { currentUser = JSON.parse(savedUser); } catch(e) {}
+      }
+      if (supabaseClient) {
+        const { data: { session } } = await supabaseClient.auth.getSession();
+        if (session) {
+          currentUser = session.user;
+        }
+        supabaseClient.auth.onAuthStateChange((_event, session) => {
+          if (session) {
+            currentUser = session.user;
+            localStorage.setItem('luxe_owner_user', JSON.stringify(currentUser));
+          }
+          updateUserUI();
+        });
+      }
+      updateUserUI();
+    }
+
+    function updateUserUI() {
+      const container = document.getElementById('user-auth-container');
+      const landing = document.getElementById('auth-landing-screen');
+      const nav = document.getElementById('app-nav');
+      const main = document.getElementById('app-main');
+
+      if (currentUser) {
+        const name = currentUser.user_metadata?.full_name || currentUser.email || 'Owner';
+        container.innerHTML = `
+          <div class="user-auth-badge" onclick="signOut()">
+            👑 ${escapeHtml(name.split('@')[0])} (Logout)
+          </div>
+        `;
+        landing.style.display = 'none';
+        nav.style.display = 'flex';
+        main.style.display = 'block';
+        loadAppointments();
+      } else {
+        container.innerHTML = `
+          <button class="user-auth-badge" onclick="showAuthLanding()">🔑 Owner Sign In</button>
+        `;
+        landing.style.display = 'block';
+        nav.style.display = 'none';
+        main.style.display = 'none';
+      }
+    }
+
+    function showAuthLanding() {
+      signOut();
+    }
+
+    function switchAuthMode(mode) {
+      authMode = mode;
+      document.getElementById('tab-landing-signin').classList.toggle('active', mode === 'signin');
+      document.getElementById('tab-landing-signup').classList.toggle('active', mode === 'signup');
+      document.getElementById('landing-fullname').style.display = mode === 'signup' ? 'block' : 'none';
+      document.getElementById('auth-landing-error').style.display = 'none';
+    }
+
+    async function submitLandingAuth() {
+      const email = document.getElementById('landing-email').value.trim();
+      const password = document.getElementById('landing-password').value.trim();
+      const fullname = document.getElementById('landing-fullname').value.trim();
+      const errBox = document.getElementById('auth-landing-error');
+      errBox.style.display = 'none';
+
+      if (!email || !password) {
+        errBox.innerText = 'Please enter email and password.';
+        errBox.style.display = 'block';
+        return;
+      }
+
+      if (!supabaseClient) {
+        currentUser = { id: 'owner-demo-1', email: email, user_metadata: { full_name: fullname || email } };
+        localStorage.setItem('luxe_owner_user', JSON.stringify(currentUser));
+        updateUserUI();
+        return;
+      }
+
+      try {
+        if (authMode === 'signup') {
+          const { data, error } = await supabaseClient.auth.signUp({
+            email,
+            password,
+            options: { data: { full_name: fullname, role: 'owner' } }
+          });
+          if (error) throw error;
+          alert('🎉 Owner registered successfully! Logged in as ' + email);
+          currentUser = data.user || { id: 'owner-new', email: email };
+          localStorage.setItem('luxe_owner_user', JSON.stringify(currentUser));
+          updateUserUI();
+        } else {
+          const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
+          if (error) throw error;
+          currentUser = data.user;
+          localStorage.setItem('luxe_owner_user', JSON.stringify(currentUser));
+          updateUserUI();
+        }
+      } catch (err) {
+        errBox.innerText = err.message || 'Authentication failed';
+        errBox.style.display = 'block';
+      }
+    }
+
+    function loginAsDemoOwner() {
+      currentUser = { id: 'owner-demo-1', email: 'owner.salon@luxesalon.com', user_metadata: { full_name: 'Salon Owner' } };
+      localStorage.setItem('luxe_owner_user', JSON.stringify(currentUser));
+      updateUserUI();
+    }
+
+    async function signInWithGoogle() {
+      if (!supabaseClient) {
+        currentUser = { id: 'owner-google-1', email: 'owner.google@gmail.com', user_metadata: { full_name: 'Google Owner' } };
+        localStorage.setItem('luxe_owner_user', JSON.stringify(currentUser));
+        updateUserUI();
+        return;
+      }
+      await supabaseClient.auth.signInWithOAuth({ provider: 'google' });
+    }
+
+    async function signOut() {
+      if (supabaseClient) {
+        await supabaseClient.auth.signOut();
+      }
+      currentUser = null;
+      localStorage.removeItem('luxe_owner_user');
+      updateUserUI();
+    }
+
+    function switchTab(tab) {
+      document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+      document.getElementById('tab-requests').style.display = 'none';
+      document.getElementById('tab-services').style.display = 'none';
+      document.getElementById('tab-slots').style.display = 'none';
+
+      if (tab === 'requests') {
+        document.querySelectorAll('#app-nav .nav-btn')[0].classList.add('active');
+        document.getElementById('tab-requests').style.display = 'block';
+        loadAppointments();
+      } else if (tab === 'services') {
+        document.querySelectorAll('#app-nav .nav-btn')[1].classList.add('active');
+        document.getElementById('tab-services').style.display = 'block';
+        loadServicesList();
+      } else if (tab === 'slots') {
+        document.querySelectorAll('#app-nav .nav-btn')[2].classList.add('active');
+        document.getElementById('tab-slots').style.display = 'block';
+        loadSlotsManager();
+      }
+    }
+
+    // TAB 1: APPOINTMENTS
+    async function loadAppointments() {
+      try {
+        const res = await fetch(`${API_BASE}/appointments`);
+        const data = await res.json();
+        allAppointments = data.appointments || [];
+        updateStats();
+        renderRequests();
+      } catch (e) {
+        console.error("loadAppointments error:", e);
+        document.getElementById('requests-list').innerHTML = `<div style="color:var(--danger); text-align:center;">Failed to load appointments.</div>`;
+      }
+    }
+
+    function updateStats() {
+      document.getElementById('cnt-all').innerText = allAppointments.length;
+      document.getElementById('cnt-pending').innerText = allAppointments.filter(a => a.status === 'pending').length;
+      document.getElementById('cnt-approved').innerText = allAppointments.filter(a => a.status === 'approved').length;
+      document.getElementById('cnt-cancelled').innerText = allAppointments.filter(a => a.status === 'cancelled').length;
+    }
+
+    function setFilter(filter, element) {
+      currentFilter = filter;
+      document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+      element.classList.add('active');
+      renderRequests();
+    }
+
+    function renderRequests() {
+      const container = document.getElementById('requests-list');
+      const filtered = currentFilter === 'all' 
+        ? allAppointments 
+        : allAppointments.filter(a => a.status === currentFilter);
+
+      if (filtered.length === 0) {
+        container.innerHTML = `<div style="background:white; border-radius:var(--radius-md); padding:24px; text-align:center; color:var(--text-muted);">No requests matching filter '${currentFilter}'.</div>`;
+        return;
+      }
+
+      container.innerHTML = filtered.map(a => {
+        let badgeClass = 'badge-pending';
+        let statusLabel = 'PENDING';
+        if (a.status === 'approved') { badgeClass = 'badge-approved'; statusLabel = '✓ APPROVED'; }
+        else if (a.status === 'rejected') { badgeClass = 'badge-rejected'; statusLabel = '❌ REJECTED'; }
+        else if (a.status === 'cancelled') { badgeClass = 'badge-cancelled'; statusLabel = '🚫 CANCELLED BY CLIENT'; }
+
+        return `
+          <div class="appt-card">
+            <div>
+              <div style="display:flex; align-items:center; gap:10px; margin-bottom:4px;">
+                <span style="font-weight:700; font-size:1.05rem;">${escapeHtml(a.service_name)}</span>
+                <span class="badge ${badgeClass}">${statusLabel}</span>
+              </div>
+              <div style="font-size:0.85rem; color:var(--text-muted);">
+                👤 Customer: ${escapeHtml(a.customer_id)} | 📅 Start: ${new Date(a.requested_start_time).toLocaleString()}
+              </div>
+            </div>
+            ${a.status === 'pending' ? `
+              <div class="actions">
+                <button class="btn btn-success" onclick="decideRequest('${a.id}', 'approved')">Approve Request</button>
+                <button class="btn btn-danger" onclick="decideRequest('${a.id}', 'rejected')">Reject</button>
+              </div>
+            ` : ''}
+          </div>
+        `;
+      }).join('');
+    }
+
+    async function decideRequest(appointmentId, decision) {
+      try {
+        const res = await fetch(`${API_BASE}/owner/decision`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            appointment_id: appointmentId,
+            decision: decision,
+            reason: decision === 'approved' ? 'Approved by Salon Owner' : 'Slot rejected by Owner'
+          })
+        });
+        const data = await res.json();
+        alert(`Request ${decision.toUpperCase()} successfully! Customer App updated live.`);
+        loadAppointments();
+      } catch (e) {
+        alert("Failed to submit decision.");
+      }
+    }
+
+    // TAB 2: SERVICES CONFIGURATION
+    async function loadServicesList() {
+      const container = document.getElementById('services-owner-list');
+      try {
+        const res = await fetch(`${API_BASE}/services`);
+        const data = await res.json();
+        const services = data.services || [];
+
+        if (services.length === 0) {
+          container.innerHTML = `<div style="background:white; border-radius:var(--radius-md); padding:24px; text-align:center; color:var(--text-muted);">No services added yet. Click "+ Add New Service" above.</div>`;
+          return;
+        }
+
+        container.innerHTML = services.map(s => `
+          <div class="appt-card">
+            <div>
+              <div style="font-weight:700; font-size:1.1rem; margin-bottom:4px;">${escapeHtml(s.name)}</div>
+              <div style="font-size:0.85rem; color:var(--text-muted); margin-bottom:6px;">${escapeHtml(s.description || '')}</div>
+              <div style="font-weight:700; color:var(--primary); font-size:0.95rem;">
+                $${s.price.toFixed(2)} • ${s.duration_minutes} Minutes
+              </div>
+            </div>
+            <div class="actions">
+              <button class="btn" style="background:#E0E0E0;" onclick="openServiceModal('${s.id}', '${escapeHtml(s.name)}', '${escapeHtml(s.description || '')}', ${s.duration_minutes}, ${s.price})">Edit</button>
+              <button class="btn btn-danger" onclick="deleteService('${s.id}')">Delete</button>
+            </div>
+          </div>
+        `).join('');
+      } catch (e) {
+        container.innerHTML = `<div style="color:var(--danger); text-align:center;">Failed to load service catalog.</div>`;
+      }
+    }
+
+    function openServiceModal(id='', name='', desc='', duration=60, price=75.00) {
+      document.getElementById('edit-service-id').value = id;
+      document.getElementById('srv-name').value = name;
+      document.getElementById('srv-desc').value = desc;
+      document.getElementById('srv-duration').value = duration;
+      document.getElementById('srv-price').value = price;
+      document.getElementById('service-modal-title').innerText = id ? 'Edit Salon Service' : 'Add New Service';
+      document.getElementById('service-modal').classList.add('active');
+    }
+
+    function closeServiceModal() {
+      document.getElementById('service-modal').classList.remove('active');
+    }
+
+    async function saveServiceConfig() {
+      const id = document.getElementById('edit-service-id').value;
+      const name = document.getElementById('srv-name').value.trim();
+      const desc = document.getElementById('srv-desc').value.trim();
+      const duration = parseInt(document.getElementById('srv-duration').value) || 60;
+      const price = parseFloat(document.getElementById('srv-price').value) || 50.0;
+
+      if (!name) { alert('Please enter service name'); return; }
+
+      try {
+        if (id) {
+          await fetch(`${API_BASE}/services/${id}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name, description: desc, duration_minutes: duration, price })
+          });
+        } else {
+          await fetch(`${API_BASE}/services`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name, description: desc, duration_minutes: duration, price })
+          });
+        }
+
+        alert("🎉 Service saved and updated live in Customer App!");
+        closeServiceModal();
+        loadServicesList();
+      } catch (e) {
+        alert("Failed to save service config.");
+      }
+    }
+
+    async function deleteService(serviceId) {
+      if (!confirm("Are you sure you want to delete this service?")) return;
+      try {
+        await fetch(`${API_BASE}/services/${serviceId}`, { method: 'DELETE' });
+        alert("Service deleted.");
+        loadServicesList();
+      } catch (e) {
+        alert("Failed to delete service.");
+      }
+    }
+
+    // TAB 3: SLOTS MANAGER
+    async function loadSlotsManager() {
+      const container = document.getElementById('slots-manager-container');
+      try {
+        const res = await fetch(`${API_BASE}/slots/7days`);
+        const data = await res.json();
+        const slots = data.slots || [];
+
+        const grouped = {};
+        slots.forEach(s => {
+          if (!grouped[s.date]) grouped[s.date] = [];
+          grouped[s.date].push(s);
+        });
+
+        container.innerHTML = Object.keys(grouped).map(dStr => {
+          const daySlots = grouped[dStr];
+          const dObj = new Date(dStr);
+          const dateTitle = dObj.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric', year: 'numeric' });
+
+          return `
+            <div style="background:white; border-radius:var(--radius-md); padding:16px; margin-bottom:16px; box-shadow:var(--shadow);">
+              <div style="font-weight:700; font-size:1.05rem; margin-bottom:12px; border-bottom:1px solid #EEE; padding-bottom:8px;">
+                📅 ${dateTitle} (${daySlots.filter(s=>!s.is_booked).length}/${daySlots.length} Slots Available)
+              </div>
+              <div style="display:grid; grid-template-columns:repeat(4, 1fr); gap:8px;">
+                ${daySlots.map(s => `
+                  <button onclick="toggleSlot('${s.id}', ${!s.is_booked})" style="padding:10px; border-radius:10px; border:1px solid #DDD; font-weight:700; font-size:0.8rem; cursor:pointer; background:${s.is_booked ? '#FEE2E2' : '#DCFCE7'}; color:${s.is_booked ? '#DC2626' : '#15803D'};">
+                    ${s.start_time.substring(0,5)} ${s.is_booked ? '🔒 FULL' : '✅ OPEN'}
+                  </button>
+                `).join('')}
+              </div>
+            </div>
+          `;
+        }).join('');
+      } catch (e) {
+        container.innerHTML = `<div style="color:var(--danger); text-align:center;">Failed to load slots availability.</div>`;
+      }
+    }
+
+    async function toggleSlot(slotId, newIsBooked) {
+      try {
+        await fetch(`${API_BASE}/slots/${slotId}/availability`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ slot_id: slotId, is_booked: newIsBooked })
+        });
+        loadSlotsManager();
+      } catch (e) {
+        alert("Failed to update slot status.");
+      }
+    }
+
+    // INIT
+    initAuth();
+    setInterval(() => {
+      if (currentUser) loadAppointments();
+    }, 3000);
+  </script>
+</body>
+</html>

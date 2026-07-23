@@ -1,0 +1,28 @@
+# Environment Secrets
+.env
+*.env
+
+# Python & FastAPI
+__pycache__/
+*.py[cod]
+*$py.class
+*.db
+.pytest_cache/
+venv/
+.venv/
+agent_service/salon_checkpoints.db
+
+# Flutter & Dart
+.dart_tool/
+.packages
+.pub-cache/
+.pub/
+build/
+*.ios
+*.android
+
+# IDEs & System
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

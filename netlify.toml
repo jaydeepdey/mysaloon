@@ -1,0 +1,18 @@
+# Netlify Configuration File for Luxe Aura Salon Web Apps
+[build]
+  publish = "agent_service/app/static"
+
+[[redirects]]
+  from = "/customer"
+  to = "/customer.html"
+  status = 200
+
+[[redirects]]
+  from = "/owner"
+  to = "/owner.html"
+  status = 200
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Access-Control-Allow-Origin = "*"
